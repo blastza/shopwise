@@ -1,32 +1,30 @@
 server:
-  port: 8081
+  port: ${PORT:8081}
 
 spring:
   application:
     name: auth-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/shopwise_db?currentSchema=auth
-    username: blastza
-    password: changeme
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/shopwise_db?currentSchema=auth}
+    username: ${DATABASE_USERNAME:shopwise}
+    password: ${DATABASE_PASSWORD:shopwise_dev_2024}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate          # Don't recreate tables — we already made them in init.sql
-    show-sql: true                # Print SQL to console so you can see what's happening
+      ddl-auto: update
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
         default_schema: auth
 
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: health,info
-
 jwt:
-  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
-  expiration: 86400000          # 24 hours in milliseconds
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  expiration: ${JWT_EXPIRATION:86400000}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
