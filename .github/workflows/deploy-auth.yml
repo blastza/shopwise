@@ -121,8 +121,8 @@ jobs:
               --network host \
               --restart unless-stopped \
               -e SPRING_DATASOURCE_URL="jdbc:postgresql://localhost:5432/shopwise_db?currentSchema=auth" \
-              -e SPRING_DATASOURCE_USERNAME="shopwise" \
-              -e SPRING_DATASOURCE_PASSWORD="shopwise_dev_2024" \
+              -e SPRING_DATASOURCE_USERNAME="blastza" \
+              -e SPRING_DATASOURCE_PASSWORD="changeme" \
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e JWT_EXPIRATION="86400000" \
               -e SERVER_PORT="8081" \
