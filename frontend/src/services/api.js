@@ -1,4 +1,6 @@
 const API_BASE_USRL = "http://localhost:8081/api"
+const PRODUCT_API_URL = 'http://localhost:8082/api'
+
 
 export async function loginUser(email, password) {
     const response = await fetch(`${API_BASE_USRL}/auth/login`, {
@@ -26,7 +28,7 @@ export async function authenticatedFetch(url, options = {}) {
 
     const headers = {
         ...options.headers,
-        'Content-Type': 'appliction/json',
+        'Content-Type': 'application/json',
     }
 
     if (token) {
@@ -37,4 +39,16 @@ export async function authenticatedFetch(url, options = {}) {
         ...options,
         headers,
     })
+}
+
+export async function getProducts(page = 0, size = 10) {
+  const response = await fetch(
+    `${PRODUCT_API_URL}/products?page=${page}&size=${size}&sortBy=createdAt`
+  )
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch products')
+  }
+
+  return response.json()
 }
