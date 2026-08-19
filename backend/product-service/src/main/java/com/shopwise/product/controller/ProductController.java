@@ -1,5 +1,6 @@
 package com.shopwise.product.controller;
 
+import com.shopwise.product.dto.ProductPageResponse;
 import com.shopwise.product.dto.ProductRequest;
 import com.shopwise.product.dto.ProductResponse;
 import com.shopwise.product.service.ProductService;
@@ -23,7 +24,7 @@ public class ProductController {
 
     // GET /api/products?page=0&size=10&sortBy=createdAt
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> getAllProducts(
+    public ResponseEntity<ProductPageResponse> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy) {

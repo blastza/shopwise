@@ -1,14 +1,45 @@
 import React, { useState } from 'react'
 import AuthLayout from '../../components/auth/AuthLayout'
 import BrandPanel from '../../components/auth/BrandPanel'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { registerUser } from '../../services/api'
 
 function Register() {
-    const [name, setName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+
+    const navigate = useNavigate()
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        setError('')
+        setLoading(true)
+
+        try {
+            const data = await registerUser(
+                firstName,
+                lastName,
+                email,
+                password
+            )
+
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('user', JSON.stringify(data))
+
+            navigate('/login')
+
+        } catch (error) {
+            console.error('Registration failed:', error),
+            setError(error.message)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <AuthLayout>
@@ -24,22 +55,40 @@ function Register() {
                         Join ShopWise and start shopping smarter.
                     </p>
 
-                    <form className="mt-8 w-full space-y-5">
+                    <form onSubmit={handleSubmit} className='mt-8 w-full space-y-5'>
 
                         <div>
                             <label
                                 htmlFor="name"
                                 className="mb-2 block text-sm font-medium text-slate-700"
                             >
-                                Full name
+                                first name
                             </label>
 
                             <input
-                                id="name"
+                                id="firstName"
                                 type="text"
-                                value={name}
-                                onChange={(event) => setName(event.target.value)}
-                                placeholder="Enter your full name"
+                                value={firstName}
+                                onChange={(event) => setFirstName(event.target.value)}
+                                placeholder="Enter your first name"
+                                required
+                                className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="name"
+                                className="mb-2 block text-sm font-medium text-slate-700"
+                            >
+                                last name
+                            </label>
+
+                            <input
+                                id="lastName"
+                                type="text"
+                                value={lastName}
+                                onChange={(event) => setLastName(event.target.value)}
+                                placeholder="Enter your last name"
                                 required
                                 className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                             />
@@ -73,12 +122,16 @@ function Register() {
                             <input
                                 id="password"
                                 type="password"
+                                minLength={8}
                                 value={password}
                                 onChange={(event) => setPassword(event.target.value)}
                                 placeholder="Create a password"
                                 required
                                 className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                             />
+                            <p className="mt-2 text-xs text-slate-500">
+                                Password must be at least 8 characters.
+                            </p>
                         </div>
                         <button
                             type="submit"

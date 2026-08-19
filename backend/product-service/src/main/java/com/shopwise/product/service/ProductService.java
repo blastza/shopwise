@@ -1,7 +1,9 @@
 package com.shopwise.product.service;
 
+import com.shopwise.product.dto.ProductPageResponse;
 import com.shopwise.product.dto.ProductRequest;
 import com.shopwise.product.dto.ProductResponse;
+import com.shopwise.product.exception.ResourceNotFoundException;
 import com.shopwise.product.model.Category;
 import com.shopwise.product.model.Product;
 import com.shopwise.product.repository.CategoryRepository;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -33,10 +37,22 @@ public class ProductService {
     // If not found → call DB, store result in Redis, return
     // Key = "products::{page}-{size}-{sort}"
     @Cacheable(value = "products", key = "#page + '-' + #size + '-' + #sortBy")
-    public Page<ProductResponse> getAllProducts(int page, int size, String sortBy) {
+    public ProductPageResponse getAllProducts(int page, int size, String sortBy) {
         log.info("Fetching products from DB — page:{} size:{} sort:{}", page, size, sortBy);
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
-        return productRepository.findByIsActiveTrue(pageable).map(this::toResponse);
+        Page<ProductResponse> pageProductResponse =
+                productRepository.findByIsActiveTrue(pageable)
+                        .map(this::toResponse);
+
+        return ProductPageResponse.builder()
+                .content(pageProductResponse.getContent())
+                .page(pageProductResponse.getNumber())
+                .size(pageProductResponse.getSize())
+                .totalElements(pageProductResponse.getTotalElements())
+                .totalPages(pageProductResponse.getTotalPages())
+                .first(pageProductResponse.isFirst())
+                .last(pageProductResponse.isLast())
+                .build();
     }
 
     // @Cacheable with product ID as key
@@ -96,10 +112,13 @@ public class ProductService {
     }
 
     @Transactional
-    @CacheEvict(value = {"products", "product"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "product", key = "#id"),
+            @CacheEvict(value = "products", allEntries = true)
+    })
     public ProductResponse updateProduct(UUID id, ProductRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
         product.setName(request.getName());
         product.setDescription(request.getDescription());
@@ -109,7 +128,7 @@ public class ProductService {
 
         if (request.getCategoryId() != null) {
             Category category = categoryRepository.findById(request.getCategoryId())
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
             product.setCategory(category);
         }
 
@@ -117,10 +136,13 @@ public class ProductService {
     }
 
     @Transactional
-    @CacheEvict(value = {"products", "product"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "product", key = "#id"),
+            @CacheEvict(value = "products", allEntries = true)
+    })
     public void deleteProduct(UUID id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
         // Soft delete — set isActive = false instead of deleting from DB
         // This preserves order history
         product.setIsActive(false);
