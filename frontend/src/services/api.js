@@ -1,77 +1,46 @@
-const API_BASE_USRL = "http://localhost:8081/api"
-const PRODUCT_API_URL = 'http://localhost:8082/api'
+const API_BASE = "/api"
 
+async function request(path, options = {}) {
+  const response = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  })
 
-export async function loginUser(email, password) {
-    const response = await fetch(`${API_BASE_USRL}/auth/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            password,
-        }),
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        throw new Error(data.message || 'Login failed')
-    }
-
-    return data
-}
-
-export async function registerUser(firstName, lastName, email, password) {
-    const response = await fetch(`${API_BASE_USRL}/auth/register`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            password,
-        }),
-    })
-    
-    const data = await response.json()
-
-    if (!response.ok) {
-        throw new Error(data.message || 'Registration failed') 
-    }
-
-    return data
-}
-
-export async function authenticatedFetch(url, options = {}) {
-    const token = localStorage.getItem('token')
-
-    const headers = {
-        ...options.headers,
-        'Content-Type': 'application/json',
-    }
-
-    if (token) {
-        headers.Authorization = `Bearer ${token}`
-    }
-
-    return fetch(url, {
-        ...options,
-        headers,
-    })
-}
-
-export async function getProducts(page = 0, size = 10) {
-  const response = await fetch(
-    `${PRODUCT_API_URL}/products?page=${page}&size=${size}&sortBy=createdAt`
-  )
+  // Some error responses have no JSON body, so don't let parsing crash
+  const data = await response.json().catch(() => null)
 
   if (!response.ok) {
-    throw new Error('Failed to fetch products')
+    throw new Error(data?.message || `Request failed (${response.status})`)
   }
 
-  return response.json()
+  return data
+}
+
+export const loginUser = (email, password) =>
+  request('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+  })
+
+export const registerUser = (firstName, lastName, email, password) =>
+  request('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ firstName, lastName, email, password }),
+  })
+
+export const getProducts = (page = 0, size = 10) =>
+  request(`/products?page=${page}&size=${size}&sortBy=createdAt`)
+
+export function authenticatedFetch(path, options = {}) {
+  const token = localStorage.getItem('token')
+  return request(path, {
+    ...options,
+    headers: {
+      ...options.headers,
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  })
 }
