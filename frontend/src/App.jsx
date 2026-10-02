@@ -1,9 +1,9 @@
-import Navbar from './components/Navbar'
+import Navbar from './components/layout/Navbar'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 import Home from './pages/Home'
+import Products from './pages/Products/Products'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css'
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/products" element={<Products />} />
       </Routes>
     </BrowserRouter>
   )
