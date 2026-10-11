@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Package, ShoppingCart, Star } from 'lucide-react'
 import { formatPrice } from '../../utils/formatPrice'
+import ProductImage from './ProductImage'
 
 const LOW_STOCK_THRESHOLD = 5
 
@@ -18,28 +18,17 @@ function ProductCard({ product, onAddToCart }) {
     reviewCount,
   } = product
 
-  const [imageFailed, setImageFailed] = useState(false)
 
   const outOfStock = stockQuantity <= 0
   const lowStock = !outOfStock && stockQuantity <= LOW_STOCK_THRESHOLD
-  const showImage = imageUrl && !imageFailed
+
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
       {/* Image, with a fallback if missing or broken */}
       <Link to={`/products/${id}`} className="block">
-        <div className="flex aspect-4/3 items-center justify-center overflow-hidden bg-slate-100 text-slate-300">
-          {showImage ? (
-            <img
-              src={imageUrl}
-              alt={name}
-              loading="lazy"
-              onError={() => setImageFailed(true)}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <Package size={48} strokeWidth={1.5} />
-          )}
-        </div>
+        <Link to={`/products/${id}`} className="block">
+          <ProductImage src={imageUrl} alt={name} />
+        </Link>
       </Link>
 
       <div className="flex flex-1 flex-col p-4">
