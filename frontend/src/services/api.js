@@ -34,6 +34,9 @@ export const registerUser = (firstName, lastName, email, password) =>
 export const getProducts = (page = 0, size = 10) =>
   request(`/products?page=${page}&size=${size}&sortBy=createdAt`)
 
+export const getProductById = (productId) => 
+  request(`/products/${encodeURIComponent(productId)}`)
+
 export function authenticatedFetch(path, options = {}) {
   const token = localStorage.getItem('token')
   return request(path, {
