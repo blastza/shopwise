@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getProducts } from '../../services/api'
-import ProductGrid from '../../components/product/ProductGrid'
+import ProductGrid from '../../components/product/ProductGrid.jsx'
 import Pagination from '../../components/ui/Pagination'
 
 const PAGE_SIZE = 12

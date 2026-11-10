@@ -59,7 +59,7 @@ public class ProductService {
     @Cacheable(value = "product", key = "#id")
     public ProductResponse getProductById(UUID id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         return toResponse(product);
     }
 
@@ -94,7 +94,7 @@ public class ProductService {
         Category category = null;
         if (request.getCategoryId() != null) {
             category = categoryRepository.findById(request.getCategoryId())
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
         }
 
         Product product = Product.builder()

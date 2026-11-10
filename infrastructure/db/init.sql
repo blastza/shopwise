@@ -77,6 +77,6 @@ INSERT INTO products.categories (name, slug, description) VALUES
                                                               ('Books', 'books', 'Physical and digital books'),
                                                               ('Home & Garden', 'home-garden', 'Furniture, tools, decor');
 
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA auth TO shopwise;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA products TO shopwise;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA orders TO shopwise;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA auth TO blastza;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA products TO blastza;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA orders TO blastza;
