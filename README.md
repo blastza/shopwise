@@ -44,3 +44,34 @@ The frontend is built with React and communicates with the backend services thro
 - Docker Compose
 - AWS EC2
 - GitHub Actions
+
+## Project Structure
+shopwise/
+├── backend/
+│   ├── auth-service/
+│   └── product-service/
+├── frontend/
+│   ├── src/
+│   ├── Dockerfile
+│   └── nginx.conf
+├── infrastructure/
+│   └── db/
+│       └── init.sql
+├── docker-compose.yml
+├── docker-compose.prod.yml
+├── .env.example
+└── README.md
+
+### Backend Services
+
+  - Auth Service: Handles user registration, login, and JWT authentication.
+
+  - Product Service: Handles product management, product retrieval, categories, and Redis caching.
+
+### Frontend
+
+  - The React frontend provides the user interface for browsing products, viewing product details, registering, and logging in.
+
+### Infrastructure
+
+  - Contains database initialization scripts and Docker configuration for running the application.
