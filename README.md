@@ -1,5 +1,3 @@
-<img width="750" height="476" alt="Screenshot_2026-11-17_18-07-24" src="https://github.com/user-attachments/assets/b8d2b5ae-6d02-40b8-bf42-e484fcd151fc" />
-<img width="750" height="476" alt="Screenshot_2026-11-17_18-07-24" src="https://github.com/user-attachments/assets/5f22dc6b-cfa9-4d84-940f-ccb9642c6c1c" />
 # ShopWise
 
 ## Overview
