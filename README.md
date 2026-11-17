@@ -1,8 +1,24 @@
 # ShopWise
 
-A full-stack e-commerce application built to simulate a real-world online shopping platform.
+## Overview
 
-ShopWise demonstrates backend development, REST API design, authentication, database management, caching, containerization and cloud deployment.
+ShopWise is a full-stack e-commerce application designed to demonstrate the development of a modern web-based shopping platform.
+
+The application uses a microservices-oriented backend architecture, with separate services responsible for authentication and product management. It uses JWT-based authentication, PostgreSQL for persistent data storage, and Redis for caching.
+
+The frontend is built with React and communicates with the backend services through REST APIs.
+
+## Features
+
+- User registration and login
+- JWT-based authentication
+- Product browsing and product detail pages
+- Product search and category-based browsing
+- RESTful API development
+- PostgreSQL database integration
+- Redis caching
+- Docker containerization
+- Multi-service orchestration using Docker Compose
 
 
 ## Tech Stack
