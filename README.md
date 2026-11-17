@@ -136,3 +136,14 @@ Once all service are running, open the frontend:
 ```bash
 http://localhost:8080
 ```
+
+## API Documentation
+
+ShopWise uses Swagger UI (OpenAPI) to provide interactive API documentation for its backend microservices.
+
+The documentation allows developers to explore available endpoints, view request and response structures, and test API operations.
+
+### Swagger UI
+
+- **Auth Service:** http://localhost:8081/swagger-ui/index.html
+- **Product Service:** http://localhost:8082/swagger-ui/index.html
