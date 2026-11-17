@@ -4,6 +4,7 @@ import { ShoppingCart, Star } from 'lucide-react'
 import { getProductById } from '../../services/api'
 import { formatPrice } from '../../utils/formatPrice'
 import ProductImage from '../../components/product/ProductImage'
+import { useCart } from '../../context/CartContext'
 
 const LOW_STOCK_THRESHOLD = 5
 
@@ -19,6 +20,7 @@ function StockStatus({ quantity }) {
 
 function ProductDetail() {
   const { id } = useParams()
+  const { addToCart } = useCart()
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -110,6 +112,7 @@ function ProductDetail() {
             <button
               type="button"
               disabled={outOfStock}
+              onClick={() => addToCart(product)}
               className="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
             >
               <ShoppingCart size={18} />

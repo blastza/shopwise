@@ -24,7 +24,7 @@ function Login() {
 
         localStorage.setItem('token', data.token)
         localStorage.setItem('user', JSON.stringify(data))
-        navigate('/')
+        navigate('/products')
         } catch (error) {
         console.error('Login failed:', error)
         setError(error.message)

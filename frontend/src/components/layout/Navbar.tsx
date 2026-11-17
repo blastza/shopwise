@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
+import { useCart } from '../../context/CartContext'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -8,6 +9,8 @@ const links = [
 ]
 
 function Navbar() {
+  const { cartCount } = useCart()
+
   return (
     <header className="sticky top-0 z-10 bg-white shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4 lg:px-8">
@@ -33,7 +36,7 @@ function Navbar() {
                   }`
                 }
               >
-                {label}
+                {label === 'Cart' ? `Cart (${cartCount})` : label}
               </NavLink>
             </li>
           ))}
