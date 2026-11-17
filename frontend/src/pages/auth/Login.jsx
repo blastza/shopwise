@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { loginUser } from '../../services/api'
 import AuthLayout from '../../components/auth/AuthLayout'
 import BrandPanel from '../../components/auth/BrandPanel'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -23,6 +24,7 @@ function Login() {
 
         localStorage.setItem('token', data.token)
         localStorage.setItem('user', JSON.stringify(data))
+        navigate('/')
         } catch (error) {
         console.error('Login failed:', error)
         setError(error.message)

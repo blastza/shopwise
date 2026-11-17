@@ -18,7 +18,7 @@ spring:
     enabled: true
     schemas: auth
     default-schema: auth
-    baseline-on-migration: true
+    baseline-on-migrate: true
     baseline-version: 1
 
 jwt:
