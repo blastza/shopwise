@@ -1,3 +1,5 @@
+<img width="750" height="476" alt="Screenshot_2026-11-17_18-07-24" src="https://github.com/user-attachments/assets/b8d2b5ae-6d02-40b8-bf42-e484fcd151fc" />
+<img width="750" height="476" alt="Screenshot_2026-11-17_18-07-24" src="https://github.com/user-attachments/assets/5f22dc6b-cfa9-4d84-940f-ccb9642c6c1c" />
 # ShopWise
 
 ## Overview
@@ -46,21 +48,7 @@ The frontend is built with React and communicates with the backend services thro
 - GitHub Actions
 
 ## Project Structure
-shopwise/
-├── backend/
-│   ├── auth-service/
-│   └── product-service/
-├── frontend/
-│   ├── src/
-│   ├── Dockerfile
-│   └── nginx.conf
-├── infrastructure/
-│   └── db/
-│       └── init.sql
-├── docker-compose.yml
-├── docker-compose.prod.yml
-├── .env.example
-└── README.md
+<img width="750" height="476" alt="Screenshot_2026-11-17_18-07-24" src="https://github.com/user-attachments/assets/820651ab-572c-4480-9e2f-c5c244243004" />
 
 ### Backend Services
 
