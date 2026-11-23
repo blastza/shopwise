@@ -63,6 +63,21 @@ services:
       redis:
         condition: service_healthy
 
+
+  order-service:
+    build:
+      context: ./backend/order-service
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}?currentSchema=orders
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+    ports:
+      - "8083:8083"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   frontend:
     build:
       context: ./frontend
@@ -71,6 +86,7 @@ services:
     depends_on:
       - auth-service
       - product-service
+      - order-service
 
 volumes:
   postgres_data:

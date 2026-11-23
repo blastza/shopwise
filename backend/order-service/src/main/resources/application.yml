@@ -1,0 +1,44 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: order-service
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5433/shopwise_db?currentSchema=orders}
+    username: ${DATABASE_USERNAME:blastza}
+    password: ${DATABASE_PASSWORD:change-me}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: orders
+        hbm2ddl:
+          create_namespaces: true
+    show-sql: true
+    open-in-view: false
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+product-service:
+  url: ${PRODUCT_SERVICE_URL:http://localhost:8082}
