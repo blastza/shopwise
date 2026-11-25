@@ -37,7 +37,8 @@ management:
       show-details: always
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: JWT_SECRET=164fd32f284c35d56ac3e158c2685a2c5a127fa877c712e97462fb936723fdf9
+
   expiration: ${JWT_EXPIRATION:86400000}
 
 product-service:

@@ -1,3 +1,4 @@
+CREATE SCHEMA IF NOT EXISTS orders;
 -- Data table orders
 CREATE TABLE orders.orders (
                             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -7,8 +8,8 @@ CREATE TABLE orders.orders (
                             total_amount NUMERIC(12,2) NOT NULL
                                 CHECK (total_amount >= 0),
                             shipping_address TEXT,
-                            created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-                            updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+                            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                            updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 -- Data table items
 CREATE TABLE orders.order_items (
